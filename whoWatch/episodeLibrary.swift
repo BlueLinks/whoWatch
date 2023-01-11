@@ -36,6 +36,7 @@ struct episodeLibrary {
     
     
     func whatToWatch() -> episode {
+        print("Checking what to watch")
         let currentDate = Date()
         for potentialEpisode in episodes {
             if potentialEpisode.startTime < Date() && potentialEpisode.endTime > currentDate {

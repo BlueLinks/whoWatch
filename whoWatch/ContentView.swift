@@ -16,13 +16,17 @@ struct ContentView: View {
     @State var previousEpisode : episode?
     @State var nextEpisode : episode?
     
+    let impactMed = UIImpactFeedbackGenerator(style: .light)
+    
     var body: some View {
         NavigationView{
             Group{
                 if let mainEpisode = mainEpisode {
                     watchCardViews(mainEpisode: $mainEpisode,
                                    previousEpisode: $previousEpisode,
-                                   nextEpisode: $nextEpisode)
+                                   nextEpisode: $nextEpisode, episodeLib: episodeLib,
+                                   backButton: { self.backButton() },
+                                   forwardButton: { self.forwardButton() })
                 }
             }
                 .navigationBarTitle("Watch")
@@ -35,6 +39,29 @@ struct ContentView: View {
             }
         }).preferredColorScheme(.dark)
     }
+    
+    func backButton() -> Void {
+        impactMed.impactOccurred()
+        if let newCurrentEp = previousEpisode {
+            // previous episode exists
+            let newPreviousEp = episodeLib.getPreviousEpisode(currentEp: newCurrentEp)
+            nextEpisode = mainEpisode
+            mainEpisode = newCurrentEp
+            previousEpisode = newPreviousEp
+        }
+    }
+    
+    func forwardButton() -> Void {
+        impactMed.impactOccurred()
+        if let newCurrentEp = nextEpisode {
+            previousEpisode = mainEpisode
+            mainEpisode = newCurrentEp
+            let newNextEpisode = episodeLib.getNextEpisode(currentEp: newCurrentEp)
+            nextEpisode = newNextEpisode
+            
+        }
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {

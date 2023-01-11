@@ -1,5 +1,5 @@
 //
-//  previousEpisodeView.swift
+//  subEpisodeView.swift
 //  whoWatch
 //
 //  Created by Scott Brown on 10/01/2023.
@@ -7,11 +7,13 @@
 
 import SwiftUI
 
-struct previousEpisodeView: View {
-    var previousEpisode: episode
+struct subEpisodeView: View {
+    var title : String
+    var subEpisode: episode
     var backgroundColor : Color
     var logo: Image
-    
+    var function: () -> Void
+    var buttonLabel : String
     
     var body: some View {
         ZStack {
@@ -19,25 +21,21 @@ struct previousEpisodeView: View {
                 .fill(backgroundColor.shadow(.drop(color: .black, radius: 10, x: 10, y: 10)))
                 .blendMode(.softLight)
             VStack(spacing: 5){
-                Text("Previous")
+                Text(title)
                     .font(.title3)
-//                logo
-//                    .resizable()
-//                    .scaledToFit()
-//                    .frame(height: 40)
-                Text(previousEpisode.show)
+                Text(subEpisode.show)
                     .font(.title)
-                Text(previousEpisode.title)
+                Text(subEpisode.title)
                     .font(.title2)
                 HStack{
-                    Text("Series:  \(previousEpisode.series)")
-                    Text("Episode: \(previousEpisode.episode)")
+                    Text("S:\(subEpisode.series)")
+                    Text("E:\(subEpisode.episode)")
                 }
-    
+                
                 Button(){
-                    print("Going back")
+                    self.function()
                 } label: {
-                    Image(systemName: "arrow.backward")
+                    Image(systemName: buttonLabel)
                         .padding()
                         .background(Color(.blue))
                         .foregroundColor(.white)
@@ -45,24 +43,31 @@ struct previousEpisodeView: View {
                 }
                 .padding()
             }.padding([.horizontal, .top], 30)
-        }.fixedSize()
+        }
         .edgesIgnoringSafeArea(.all)
     }
 }
 
-struct previousEpisodeView_Previews: PreviewProvider {
+struct subEpisodeView_Previews: PreviewProvider {
     static var previews: some View {
         let episodeLib = episodeLibrary(episodes: Bundle.main.decode("doccyWho.json"))
         
         let controller = watchCardViews(mainEpisode: .constant(episodeLib.episodes[5]),
                                         previousEpisode: .constant(episodeLib.episodes[4]),
-                                        nextEpisode: .constant(episodeLib.episodes[6]))
+                                        nextEpisode: .constant(episodeLib.episodes[6]), episodeLib: episodeLib,
+                                        backButton: { print("Going back") },
+                                        forwardButton: { print("Going forward") })
         
-        let previousEp = episodeLib.episodes[4]
+        let subEp = episodeLib.episodes[4]
         
         ZStack{
-            controller.getBackgroundColor(ep: previousEp)
-            previousEpisodeView(previousEpisode: previousEp, backgroundColor: controller.getBackgroundColor(ep: previousEp), logo: controller.getLogo(currentEp: previousEp))
+            controller.getBackgroundColor(ep: subEp)
+            subEpisodeView(title: "Next",
+                           subEpisode: subEp,
+                           backgroundColor: controller.getBackgroundColor(ep: subEp),
+                           logo: controller.getLogo(currentEp: subEp),
+                           function: { print("Hello, World") },
+                           buttonLabel: "arrow.forward")
         }.preferredColorScheme(.dark)
     }
 }

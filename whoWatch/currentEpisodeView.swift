@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct currentEpisodeView: View {
+    
+    var title : String
     var currentEpisode: episode
     var backgroundColor : Color
     var logo: Image
@@ -18,12 +20,12 @@ struct currentEpisodeView: View {
                 .fill(backgroundColor.shadow(.drop(color: .black, radius: 10, x: 10, y: 10)))
                 .blendMode(.softLight)
             VStack(spacing: 10){
-                Text("Current")
-                    .font(.title3)
+                Text(title)
+                    .font(.title2)
                 logo
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 100)
+                    .frame(width: 200, height: 100)
                 Text(currentEpisode.title)
                     .font(.title)
                 HStack{
@@ -31,8 +33,8 @@ struct currentEpisodeView: View {
                     Text("Episode: \(currentEpisode.episode)")
                 }
             }.padding()
+                .fixedSize()
         }
-            .fixedSize()
         .edgesIgnoringSafeArea(.all)
     }
 }
@@ -43,12 +45,14 @@ struct currentEpisodeView_Previews: PreviewProvider {
         
         let controller = watchCardViews(mainEpisode: .constant(episodeLib.episodes[1]),
                                         previousEpisode: .constant(episodeLib.episodes[1]),
-                                        nextEpisode: .constant(episodeLib.episodes[1]))
+                                        nextEpisode: .constant(episodeLib.episodes[1]), episodeLib: episodeLib,
+                                        backButton: { print("Going back") },
+                                        forwardButton: { print("Going forward") })
         
         let currentEp = episodeLib.episodes[5]
         ZStack{
             controller.getBackgroundColor(ep: currentEp)
-            currentEpisodeView(currentEpisode: currentEp, backgroundColor: controller.getBackgroundColor(ep: currentEp), logo: controller.getLogo(currentEp: currentEp))
+            currentEpisodeView(title: "Current", currentEpisode: currentEp, backgroundColor: controller.getBackgroundColor(ep: currentEp), logo: controller.getLogo(currentEp: currentEp))
         }.preferredColorScheme(.dark)
     }
 }
