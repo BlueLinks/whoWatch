@@ -106,12 +106,14 @@ struct watchCardViews : View{
     
     var body: some View {
         ZStack{
-            LinearGradient(gradient: Gradient(colors: [getBackgroundColor(ep: mainEpisode), getBackgroundColor(ep: mainEpisode).darker(by: 0.5)]), startPoint: .topLeading, endPoint: .bottom)
             
-                .edgesIgnoringSafeArea(.all)
+            LinearGradient(gradient: Gradient(colors: [getBackgroundColor(ep: mainEpisode), getBackgroundColor(ep: mainEpisode).darker(by: 0.5)]), startPoint: .topLeading, endPoint: .bottom)
+                .edgesIgnoringSafeArea(.top)
             
             GeometryReader { geo in
-                VStack(spacing: 50){
+                VStack(){
+                    
+                    Spacer()
                     
                     currentEpisodeView(title: mainTitle,
                                        currentEpisode: mainEpisode,
@@ -119,7 +121,12 @@ struct watchCardViews : View{
                                        logo: getLogo(currentEp: mainEpisode),
                                        function: {self.currentButton() }
                     )
-                    .frame(width: geo.size.width * 0.9, height: geo.size.width * 0.8)
+                    .frame(minWidth: geo.size.width * 0.5,
+                           maxWidth: geo.size.width * 0.9,
+                           minHeight: geo.size.width * 0.4,
+                           maxHeight: geo.size.width * 0.8)
+                    
+                    Spacer()
                     
                     HStack(spacing: geo.size.width * 0.05){
                         
@@ -130,7 +137,11 @@ struct watchCardViews : View{
                                            logo: getLogo(currentEp: previousEpisode),
                                            function: { self.backButton() },
                                            buttonLabel: "arrow.backward")
-                            .frame(width: geo.size.width * 0.45, height: geo.size.width * 0.7)
+                            .frame(minWidth: geo.size.width * 0.3,
+                                   maxWidth: geo.size.width * 0.45,
+                                   minHeight: geo.size.width * 0.3,
+                                   maxHeight: geo.size.width * 0.7)
+                            
                         }
                         
                         if let nextEpisode = nextEpisode {
@@ -138,10 +149,15 @@ struct watchCardViews : View{
                                            subEpisode: nextEpisode, backgroundColor: getBackgroundColor(ep: nextEpisode),
                                            logo: getLogo(currentEp: nextEpisode),
                                            function: { self.forwardButton() }, buttonLabel: "arrow.forward")
-                            .frame(width: geo.size.width * 0.45, height: geo.size.width * 0.7)
+                            .frame(minWidth: geo.size.width * 0.3,
+                                   maxWidth: geo.size.width * 0.45,
+                                   minHeight: geo.size.width * 0.3,
+                                   maxHeight: geo.size.width * 0.7)
                             
                         }
                     }
+                    
+                    Spacer()
                     
                 }
                 .frame(width: geo.size.width, height: geo.size.height)

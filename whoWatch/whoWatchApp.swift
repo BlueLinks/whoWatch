@@ -11,7 +11,7 @@ import SwiftUI
 struct whoWatchApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            mainView()
         }
     }
 }

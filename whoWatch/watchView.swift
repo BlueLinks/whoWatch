@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  watchView.swift
 //  whoWatch
 //
 //  Created by Scott Brown on 06/01/2023.
@@ -8,9 +8,9 @@
 import SwiftUI
 import Neumorphic
 
-struct ContentView: View {
+struct watchView: View {
     
-    let episodeLib = episodeLibrary(episodes: Bundle.main.decode("doccyWho.json"))
+    let episodeLib : episodeLibrary
     
     @State var mainEpisode : episode = episode(title: "???", show: "???", series: "???", episode: "???", startTime: Date(), endTime: Date(), prettyTime: "???", orderNo: 999)
     
@@ -53,8 +53,9 @@ struct ContentView: View {
     
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct watchView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        let episodeLib = episodeLibrary(episodes: Bundle.main.decode("doccyWho.json"))
+        watchView(episodeLib: episodeLib)
     }
 }

@@ -26,7 +26,6 @@ struct currentEpisodeView: View {
                 logo
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 200, height: 100)
                 Text(currentEpisode.title)
                     .multilineTextAlignment(.center)
                     .font(.title)
