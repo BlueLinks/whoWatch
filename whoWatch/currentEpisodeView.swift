@@ -13,6 +13,7 @@ struct currentEpisodeView: View {
     var currentEpisode: episode
     var backgroundColor : Color
     var logo: Image
+    var function: () -> Void
     
     var body: some View {
         ZStack {
@@ -21,19 +22,31 @@ struct currentEpisodeView: View {
                 .blendMode(.softLight)
             VStack(spacing: 10){
                 Text(title)
-                    .font(.title2)
+                    .font(.title)
                 logo
                     .resizable()
                     .scaledToFit()
                     .frame(width: 200, height: 100)
                 Text(currentEpisode.title)
+                    .multilineTextAlignment(.center)
                     .font(.title)
                 HStack{
-                    Text("Series:  \(currentEpisode.series)")
-                    Text("Episode: \(currentEpisode.episode)")
+                    Text("Series: \(currentEpisode.series), Episode: \(currentEpisode.episode)")
+                        .multilineTextAlignment(.center)
+                }
+                if title != "Watch Now!"{
+                    Button(){
+                        self.function()
+                    } label: {
+                        Text("Back to current")
+                            .padding()
+                            .background(Color(.blue))
+                            .foregroundColor(.white)
+                            .clipShape(Capsule())
+                    }
+                    .padding()
                 }
             }.padding()
-                .fixedSize()
         }
         .edgesIgnoringSafeArea(.all)
     }
@@ -44,15 +57,12 @@ struct currentEpisodeView_Previews: PreviewProvider {
         let episodeLib = episodeLibrary(episodes: Bundle.main.decode("doccyWho.json"))
         
         let controller = watchCardViews(mainEpisode: .constant(episodeLib.episodes[1]),
-                                        previousEpisode: .constant(episodeLib.episodes[1]),
-                                        nextEpisode: .constant(episodeLib.episodes[1]), episodeLib: episodeLib,
-                                        backButton: { print("Going back") },
-                                        forwardButton: { print("Going forward") })
+                                        episodeLib: episodeLib)
         
         let currentEp = episodeLib.episodes[5]
         ZStack{
             controller.getBackgroundColor(ep: currentEp)
-            currentEpisodeView(title: "Current", currentEpisode: currentEp, backgroundColor: controller.getBackgroundColor(ep: currentEp), logo: controller.getLogo(currentEp: currentEp))
+            currentEpisodeView(title: "Next", currentEpisode: currentEp, backgroundColor: controller.getBackgroundColor(ep: currentEp), logo: controller.getLogo(currentEp: currentEp), function: { print("Going back to current") })
         }.preferredColorScheme(.dark)
     }
 }

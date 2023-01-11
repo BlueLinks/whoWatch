@@ -12,53 +12,42 @@ struct ContentView: View {
     
     let episodeLib = episodeLibrary(episodes: Bundle.main.decode("doccyWho.json"))
     
-    @State var mainEpisode : episode?
-    @State var previousEpisode : episode?
-    @State var nextEpisode : episode?
+    @State var mainEpisode : episode = episode(title: "???", show: "???", series: "???", episode: "???", startTime: Date(), endTime: Date(), prettyTime: "???", orderNo: 999)
     
     let impactMed = UIImpactFeedbackGenerator(style: .light)
     
     var body: some View {
         NavigationView{
             Group{
-                if let mainEpisode = mainEpisode {
-                    watchCardViews(mainEpisode: $mainEpisode,
-                                   previousEpisode: $previousEpisode,
-                                   nextEpisode: $nextEpisode, episodeLib: episodeLib,
-                                   backButton: { self.backButton() },
-                                   forwardButton: { self.forwardButton() })
-                }
+                watchCardViews(mainEpisode: $mainEpisode,
+                               episodeLib: episodeLib,
+                               backButton: { self.backButton() },
+                               currentButton: { self.currentButton() },
+                               forwardButton: { self.forwardButton() })
             }
-                .navigationBarTitle("Watch")
+            .navigationBarTitle("whoWatch")
         }
         .onAppear(perform: {
             mainEpisode = episodeLib.whatToWatch()
-            if let mainEpisode = mainEpisode {
-                previousEpisode = episodeLib.getPreviousEpisode(currentEp: mainEpisode)
-                nextEpisode = episodeLib.getNextEpisode(currentEp: mainEpisode)
-            }
         }).preferredColorScheme(.dark)
     }
     
     func backButton() -> Void {
         impactMed.impactOccurred()
-        if let newCurrentEp = previousEpisode {
-            // previous episode exists
-            let newPreviousEp = episodeLib.getPreviousEpisode(currentEp: newCurrentEp)
-            nextEpisode = mainEpisode
-            mainEpisode = newCurrentEp
-            previousEpisode = newPreviousEp
+        if let newMainEpiosde = episodeLib.getPreviousEpisode(currentEp: mainEpisode) {
+            mainEpisode = newMainEpiosde
         }
+    }
+    
+    func currentButton() -> Void {
+        impactMed.impactOccurred()
+        mainEpisode = episodeLib.whatToWatch()
     }
     
     func forwardButton() -> Void {
         impactMed.impactOccurred()
-        if let newCurrentEp = nextEpisode {
-            previousEpisode = mainEpisode
-            mainEpisode = newCurrentEp
-            let newNextEpisode = episodeLib.getNextEpisode(currentEp: newCurrentEp)
-            nextEpisode = newNextEpisode
-            
+        if let newMainEpiosde = episodeLib.getNextEpisode(currentEp: mainEpisode) {
+            mainEpisode = newMainEpiosde
         }
     }
     

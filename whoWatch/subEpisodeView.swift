@@ -23,15 +23,18 @@ struct subEpisodeView: View {
             VStack(spacing: 5){
                 Text(title)
                     .font(.title3)
+                Spacer()
                 Text(subEpisode.show)
-                    .font(.title)
-                Text(subEpisode.title)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.center)
                     .font(.title2)
-                HStack{
-                    Text("S:\(subEpisode.series)")
-                    Text("E:\(subEpisode.episode)")
-                }
-                
+                Text(subEpisode.title)
+                    .multilineTextAlignment(.center)
+                    .font(.title3)
+                Text("S:\(subEpisode.series) E:\(subEpisode.episode)")
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.center)
+                Spacer()
                 Button(){
                     self.function()
                 } label: {
@@ -42,7 +45,7 @@ struct subEpisodeView: View {
                         .clipShape(Circle())
                 }
                 .padding()
-            }.padding([.horizontal, .top], 30)
+            }.padding([.horizontal, .top], 20)
         }
         .edgesIgnoringSafeArea(.all)
     }
@@ -53,10 +56,7 @@ struct subEpisodeView_Previews: PreviewProvider {
         let episodeLib = episodeLibrary(episodes: Bundle.main.decode("doccyWho.json"))
         
         let controller = watchCardViews(mainEpisode: .constant(episodeLib.episodes[5]),
-                                        previousEpisode: .constant(episodeLib.episodes[4]),
-                                        nextEpisode: .constant(episodeLib.episodes[6]), episodeLib: episodeLib,
-                                        backButton: { print("Going back") },
-                                        forwardButton: { print("Going forward") })
+                                        episodeLib: episodeLib)
         
         let subEp = episodeLib.episodes[4]
         

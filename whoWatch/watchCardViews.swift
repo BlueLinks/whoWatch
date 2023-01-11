@@ -44,26 +44,30 @@ extension UIColor {
 
 struct watchCardViews : View{
     
-    @Binding var mainEpisode : episode?
-    @Binding var previousEpisode : episode?
-    @Binding var nextEpisode : episode?
+    @Binding var mainEpisode : episode
     var episodeLib : episodeLibrary
-    var backButton: () -> Void
-    var forwardButton: () -> Void
+    // default values for previews
+    var backButton: () -> Void = { print("Going back") }
+    var currentButton: () -> Void = { print("Going to current") }
+    var forwardButton: () -> Void = { print("Going forward") }
     
+    var previousEpisode : episode? {
+        episodeLib.getPreviousEpisode(currentEp: mainEpisode)
+    }
+    
+    var nextEpisode : episode? {
+        episodeLib.getNextEpisode(currentEp: mainEpisode)
+    }
     
     var mainTitle : String {
-        if let mainEp = mainEpisode {
-            let currentEpisode = episodeLib.whatToWatch()
-            if mainEp.id == currentEpisode.id {
-                return "Current"
-            } else if  mainEp.startTime < currentEpisode.startTime {
-                return "Past"
-            } else {
-                return "Future"
-            }
+        let currentEpisode = episodeLib.whatToWatch()
+        if mainEpisode.id == currentEpisode.id {
+            return "Watch Now!"
+        } else if  mainEpisode.startTime < currentEpisode.startTime {
+            return "Finished"
+        } else {
+            return "Soon..."
         }
-        return "Unknown"
     }
     
     var seriesColor = [
@@ -102,19 +106,23 @@ struct watchCardViews : View{
     
     var body: some View {
         ZStack{
-            if let mainEpisode = mainEpisode {
-                LinearGradient(gradient: Gradient(colors: [getBackgroundColor(ep: mainEpisode), getBackgroundColor(ep: mainEpisode).darker(by: 0.5)]), startPoint: .topLeading, endPoint: .bottom)
-                
-                    .edgesIgnoringSafeArea(.all)
-            }
+            LinearGradient(gradient: Gradient(colors: [getBackgroundColor(ep: mainEpisode), getBackgroundColor(ep: mainEpisode).darker(by: 0.5)]), startPoint: .topLeading, endPoint: .bottom)
+            
+                .edgesIgnoringSafeArea(.all)
+            
             GeometryReader { geo in
                 VStack(spacing: 50){
-                    if let mainEpisode = mainEpisode {
-                        currentEpisodeView(title: mainTitle, currentEpisode: mainEpisode, backgroundColor: getBackgroundColor(ep: mainEpisode), logo: getLogo(currentEp: mainEpisode))
-                        
-                            .frame(width: geo.size.width * 0.8, height: geo.size.width * 0.8)
-                    }
+                    
+                    currentEpisodeView(title: mainTitle,
+                                       currentEpisode: mainEpisode,
+                                       backgroundColor: getBackgroundColor(ep: mainEpisode),
+                                       logo: getLogo(currentEp: mainEpisode),
+                                       function: {self.currentButton() }
+                    )
+                    .frame(width: geo.size.width * 0.9, height: geo.size.width * 0.8)
+                    
                     HStack(spacing: geo.size.width * 0.05){
+                        
                         if let previousEpisode = previousEpisode {
                             subEpisodeView(title: "Previous",
                                            subEpisode: previousEpisode,
@@ -122,14 +130,15 @@ struct watchCardViews : View{
                                            logo: getLogo(currentEp: previousEpisode),
                                            function: { self.backButton() },
                                            buttonLabel: "arrow.backward")
-                                .frame(width: geo.size.width * 0.4, height: geo.size.width * 0.4)
+                            .frame(width: geo.size.width * 0.45, height: geo.size.width * 0.7)
                         }
+                        
                         if let nextEpisode = nextEpisode {
                             subEpisodeView(title: "Next",
                                            subEpisode: nextEpisode, backgroundColor: getBackgroundColor(ep: nextEpisode),
                                            logo: getLogo(currentEp: nextEpisode),
                                            function: { self.forwardButton() }, buttonLabel: "arrow.forward")
-                                .frame(width: geo.size.width * 0.4, height: geo.size.width * 0.4)
+                            .frame(width: geo.size.width * 0.45, height: geo.size.width * 0.7)
                             
                         }
                     }
@@ -186,8 +195,6 @@ struct watchCardViews : View{
             let episodeLib = episodeLibrary(episodes: Bundle.main.decode("doccyWho.json"))
             
             watchCardViews(mainEpisode: .constant(episodeLib.episodes[5]),
-                           previousEpisode: .constant(episodeLib.episodes[4]),
-                           nextEpisode: .constant(episodeLib.episodes[6]),
                            episodeLib: episodeLib,
                            backButton: { print("Going back") },
                            forwardButton: { print("Going forward") })
