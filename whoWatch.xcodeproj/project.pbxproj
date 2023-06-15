@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		930219EA2A18381C0061083B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930219E92A18381C0061083B /* SettingsView.swift */; };
 		93157F502968B95B00651DAA /* whoWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93157F4F2968B95B00651DAA /* whoWatchApp.swift */; };
 		93157F522968B95B00651DAA /* watchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93157F512968B95B00651DAA /* watchView.swift */; };
 		93157F542968B95E00651DAA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93157F532968B95E00651DAA /* Assets.xcassets */; };
@@ -21,9 +22,11 @@
 		93157F71296DC5BB00651DAA /* subEpisodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93157F70296DC5BB00651DAA /* subEpisodeView.swift */; };
 		938259F2296F4E7C00587088 /* mainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938259F1296F4E7C00587088 /* mainView.swift */; };
 		938259F4296F4E8B00587088 /* episodeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938259F3296F4E8B00587088 /* episodeListView.swift */; };
+		93E9854E2A33CDB9001FA086 /* SettingsView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E9854D2A33CDB9001FA086 /* SettingsView-ViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		930219E92A18381C0061083B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		93157F4C2968B95B00651DAA /* whoWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = whoWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93157F4F2968B95B00651DAA /* whoWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = whoWatchApp.swift; sourceTree = "<group>"; };
 		93157F512968B95B00651DAA /* watchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = watchView.swift; sourceTree = "<group>"; };
@@ -38,6 +41,7 @@
 		93157F70296DC5BB00651DAA /* subEpisodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = subEpisodeView.swift; sourceTree = "<group>"; };
 		938259F1296F4E7C00587088 /* mainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainView.swift; sourceTree = "<group>"; };
 		938259F3296F4E8B00587088 /* episodeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = episodeListView.swift; sourceTree = "<group>"; };
+		93E9854D2A33CDB9001FA086 /* SettingsView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView-ViewModel.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,15 +76,17 @@
 			isa = PBXGroup;
 			children = (
 				93157F4F2968B95B00651DAA /* whoWatchApp.swift */,
-				93157F612968BCE800651DAA /* Bundle-Decodable.swift */,
-				93157F512968B95B00651DAA /* watchView.swift */,
 				938259F1296F4E7C00587088 /* mainView.swift */,
+				93E9854D2A33CDB9001FA086 /* SettingsView-ViewModel.swift */,
+				930219E92A18381C0061083B /* SettingsView.swift */,
 				938259F3296F4E8B00587088 /* episodeListView.swift */,
+				93157F512968B95B00651DAA /* watchView.swift */,
 				93157F6C296DBF7B00651DAA /* watchCardViews.swift */,
+				93157F6E296DC0C800651DAA /* currentEpisodeView.swift */,
+				93157F70296DC5BB00651DAA /* subEpisodeView.swift */,
 				93157F5D2968B9F000651DAA /* episode.swift */,
 				93157F682969953900651DAA /* episodeLibrary.swift */,
-				93157F70296DC5BB00651DAA /* subEpisodeView.swift */,
-				93157F6E296DC0C800651DAA /* currentEpisodeView.swift */,
+				93157F612968BCE800651DAA /* Bundle-Decodable.swift */,
 				93157F632968BE3D00651DAA /* doccyWho.json */,
 				93157F532968B95E00651DAA /* Assets.xcassets */,
 				93157F552968B95E00651DAA /* Preview Content */,
@@ -181,8 +187,10 @@
 				93157F6D296DBF7B00651DAA /* watchCardViews.swift in Sources */,
 				93157F502968B95B00651DAA /* whoWatchApp.swift in Sources */,
 				93157F71296DC5BB00651DAA /* subEpisodeView.swift in Sources */,
+				93E9854E2A33CDB9001FA086 /* SettingsView-ViewModel.swift in Sources */,
 				93157F692969953900651DAA /* episodeLibrary.swift in Sources */,
 				93157F622968BCE800651DAA /* Bundle-Decodable.swift in Sources */,
+				930219EA2A18381C0061083B /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

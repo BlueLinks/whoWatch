@@ -22,6 +22,11 @@ struct mainView: View {
                     .tabItem {
                         Label("List", systemImage: "list.dash")
                     }
+                
+                SettingsView()
+                    .tabItem{
+                        Label("Settings", systemImage: "gear")
+                    }
             }
         }
     }
