@@ -31,7 +31,7 @@ struct subEpisodeView: View {
                 Text(subEpisode.title)
                     .multilineTextAlignment(.center)
                     .font(.title3)
-                Text("S:\(subEpisode.series) E:\(subEpisode.episode)")
+                Text("S:\(subEpisode.series) E:\(subEpisode.episodeNum)")
                     .fixedSize(horizontal: false, vertical: true)
                     .multilineTextAlignment(.center)
                 Spacer()
@@ -53,19 +53,15 @@ struct subEpisodeView: View {
 
 struct subEpisodeView_Previews: PreviewProvider {
     static var previews: some View {
-        let episodeLib = episodeLibrary(episodes: Bundle.main.decode("doccyWho.json"))
         
-        let controller = watchCardViews(mainEpisode: .constant(episodeLib.episodes[5]),
-                                        episodeLib: episodeLib)
-        
-        let subEp = episodeLib.episodes[4]
+        let controller = watchView()
         
         ZStack{
-            controller.getBackgroundColor(ep: subEp)
+            controller.getBackgroundColor(ep: episode.example)
             subEpisodeView(title: "Next",
-                           subEpisode: subEp,
-                           backgroundColor: controller.getBackgroundColor(ep: subEp),
-                           logo: controller.getLogo(currentEp: subEp),
+                           subEpisode: episode.example,
+                           backgroundColor: controller.getBackgroundColor(ep: episode.example),
+                           logo: controller.getLogo(currentEp: episode.example),
                            function: { print("Hello, World") },
                            buttonLabel: "arrow.forward")
         }.preferredColorScheme(.dark)
