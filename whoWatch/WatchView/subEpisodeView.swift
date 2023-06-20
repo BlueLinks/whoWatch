@@ -54,7 +54,7 @@ struct subEpisodeView: View {
 struct subEpisodeView_Previews: PreviewProvider {
     static var previews: some View {
         
-        let controller = watchCardViews(mainEpisode: episode.example, showingCurrentEpisode: false)
+        let controller = watchView()
         
         ZStack{
             controller.getBackgroundColor(ep: episode.example)

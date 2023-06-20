@@ -25,7 +25,7 @@ struct mainView: View {
                 .tabItem{
                     Label("Settings", systemImage: "gear")
                 }
-        }
+        }.preferredColorScheme(.dark)
     }
 }
 
