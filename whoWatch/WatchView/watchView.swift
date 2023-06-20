@@ -57,7 +57,7 @@ struct watchView : View{
                         
                         Spacer()
                         
-                        currentEpisodeView(title: "Watch now",
+                        MainEpisodeView(title: viewModel.mainEpisodeViewTitle,
                                            currentEpisode: mainEpisode,
                                            backgroundColor: getBackgroundColor(ep: mainEpisode),
                                            logo: getLogo(currentEp: mainEpisode),

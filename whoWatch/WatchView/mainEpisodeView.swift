@@ -1,5 +1,5 @@
 //
-//  currentEpisodeView.swift
+//  mainEpisodeView.swift
 //  whoWatch
 //
 //  Created by Scott Brown on 10/01/2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct currentEpisodeView: View {
+struct MainEpisodeView: View {
     
     var title : String
     var currentEpisode: episode
@@ -91,7 +91,7 @@ struct currentEpisodeView_Previews: PreviewProvider {
         
         ZStack{
             controller.getBackgroundColor(ep: episode.example)
-            currentEpisodeView(title: "Watch Now!", currentEpisode: episode.example, backgroundColor: controller.getBackgroundColor(ep: episode.example), logo: controller.getLogo(currentEp: episode.example), function: { print("Going back to current") }, showingCurrentEpisode: showingCurrentEpisode)
+            MainEpisodeView(title: "Watch Now!", currentEpisode: episode.example, backgroundColor: controller.getBackgroundColor(ep: episode.example), logo: controller.getLogo(currentEp: episode.example), function: { print("Going back to current") }, showingCurrentEpisode: showingCurrentEpisode)
         }.preferredColorScheme(.dark)
     }
 }

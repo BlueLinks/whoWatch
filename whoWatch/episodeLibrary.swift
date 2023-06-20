@@ -26,10 +26,6 @@ class episodeLibrary : ObservableObject {
         episodes = []
     }
     
-    var currentEpisode : episode {
-        return whatToWatch()
-    }
-    
     func getNextEpisode(currentEp : episode) -> episode? {
         if currentEp.orderNum != episodes.count {
             return episodes[currentEp.orderNum]

@@ -40,6 +40,22 @@ extension watchView {
             onCurrentPressed()
         }
         
+        var mainEpisodeViewTitle : String {
+            let currentEpisode = episodeLib.whatToWatch()
+            if let mainEpisode = mainEpisode {
+                if mainEpisode == episodeLib.whatToWatch() {
+                    return "Watch now!"
+                }
+                if mainEpisode.startTime < currentEpisode.startTime {
+                    return "Previously..."
+                }
+                if mainEpisode.startTime > currentEpisode.startTime {
+                    return "Soon..."
+                }
+            }
+            return "Unknown"
+        }
+        
         func onBackPressed() -> Void {
             if let newMainEpiosde = episodeLib.getPreviousEpisode(currentEp: mainEpisode!) {
                 mainEpisode = newMainEpiosde
