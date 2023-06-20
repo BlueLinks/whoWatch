@@ -14,6 +14,7 @@ struct currentEpisodeView: View {
     var backgroundColor : Color
     var logo: Image
     var function: () -> Void
+    var showingCurrentEpisode : Bool
     
     @State private var timeRemaining = 86400.00 // default value 24hrs in seconds
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -38,10 +39,10 @@ struct currentEpisodeView: View {
                     .multilineTextAlignment(.center)
                     .font(.title)
                 HStack{
-                    Text("Series: \(currentEpisode.series), Episode: \(currentEpisode.episode)")
+                    Text("Series: \(currentEpisode.series), Episode: \(currentEpisode.episodeNum)")
                         .multilineTextAlignment(.center)
                 }
-                if title != "Watch Now!"{
+                if !showingCurrentEpisode{
                     // This is not the current episode
                     Button(){
                         self.function()
@@ -84,15 +85,13 @@ struct currentEpisodeView: View {
 
 struct currentEpisodeView_Previews: PreviewProvider {
     static var previews: some View {
-        let episodeLib = episodeLibrary(episodes: Bundle.main.decode("doccyWho.json"))
         
-        let controller = watchCardViews(mainEpisode: .constant(episodeLib.episodes[0]),
-                                        episodeLib: episodeLib)
+        let showingCurrentEpisode = true
+        let controller = watchCardViews(mainEpisode: episode.example, showingCurrentEpisode: showingCurrentEpisode)
         
-        let currentEp = episodeLib.whatToWatch()
         ZStack{
-            controller.getBackgroundColor(ep: currentEp)
-            currentEpisodeView(title: "Watch Now!", currentEpisode: currentEp, backgroundColor: controller.getBackgroundColor(ep: currentEp), logo: controller.getLogo(currentEp: currentEp), function: { print("Going back to current") })
+            controller.getBackgroundColor(ep: episode.example)
+            currentEpisodeView(title: "Watch Now!", currentEpisode: episode.example, backgroundColor: controller.getBackgroundColor(ep: episode.example), logo: controller.getLogo(currentEp: episode.example), function: { print("Going back to current") }, showingCurrentEpisode: showingCurrentEpisode)
         }.preferredColorScheme(.dark)
     }
 }

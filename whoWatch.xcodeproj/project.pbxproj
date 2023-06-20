@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		930219EA2A18381C0061083B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930219E92A18381C0061083B /* SettingsView.swift */; };
+		9304D0BD2A3E67AC009DE361 /* watchView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9304D0BC2A3E67AC009DE361 /* watchView-ViewModel.swift */; };
 		93157F502968B95B00651DAA /* whoWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93157F4F2968B95B00651DAA /* whoWatchApp.swift */; };
 		93157F522968B95B00651DAA /* watchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93157F512968B95B00651DAA /* watchView.swift */; };
 		93157F542968B95E00651DAA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93157F532968B95E00651DAA /* Assets.xcassets */; };
@@ -27,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		930219E92A18381C0061083B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		9304D0BC2A3E67AC009DE361 /* watchView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "watchView-ViewModel.swift"; sourceTree = "<group>"; };
 		93157F4C2968B95B00651DAA /* whoWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = whoWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93157F4F2968B95B00651DAA /* whoWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = whoWatchApp.swift; sourceTree = "<group>"; };
 		93157F512968B95B00651DAA /* watchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = watchView.swift; sourceTree = "<group>"; };
@@ -56,6 +58,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9304D0BF2A3E6834009DE361 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				93E9854D2A33CDB9001FA086 /* SettingsView-ViewModel.swift */,
+				930219E92A18381C0061083B /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		9304D0C12A3E685E009DE361 /* WatchView */ = {
+			isa = PBXGroup;
+			children = (
+				9304D0BC2A3E67AC009DE361 /* watchView-ViewModel.swift */,
+				93157F512968B95B00651DAA /* watchView.swift */,
+				93157F6C296DBF7B00651DAA /* watchCardViews.swift */,
+				93157F6E296DC0C800651DAA /* currentEpisodeView.swift */,
+				93157F70296DC5BB00651DAA /* subEpisodeView.swift */,
+			);
+			path = WatchView;
+			sourceTree = "<group>";
+		};
 		93157F432968B95B00651DAA = {
 			isa = PBXGroup;
 			children = (
@@ -77,13 +100,9 @@
 			children = (
 				93157F4F2968B95B00651DAA /* whoWatchApp.swift */,
 				938259F1296F4E7C00587088 /* mainView.swift */,
-				93E9854D2A33CDB9001FA086 /* SettingsView-ViewModel.swift */,
-				930219E92A18381C0061083B /* SettingsView.swift */,
-				938259F3296F4E8B00587088 /* episodeListView.swift */,
-				93157F512968B95B00651DAA /* watchView.swift */,
-				93157F6C296DBF7B00651DAA /* watchCardViews.swift */,
-				93157F6E296DC0C800651DAA /* currentEpisodeView.swift */,
-				93157F70296DC5BB00651DAA /* subEpisodeView.swift */,
+				9304D0BF2A3E6834009DE361 /* Settings */,
+				9304D0C12A3E685E009DE361 /* WatchView */,
+				93626E222A4222BC00D3A6D7 /* episodeListView */,
 				93157F5D2968B9F000651DAA /* episode.swift */,
 				93157F682969953900651DAA /* episodeLibrary.swift */,
 				93157F612968BCE800651DAA /* Bundle-Decodable.swift */,
@@ -100,6 +119,14 @@
 				93157F562968B95E00651DAA /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		93626E222A4222BC00D3A6D7 /* episodeListView */ = {
+			isa = PBXGroup;
+			children = (
+				938259F3296F4E8B00587088 /* episodeListView.swift */,
+			);
+			path = episodeListView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -180,6 +207,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				938259F4296F4E8B00587088 /* episodeListView.swift in Sources */,
+				9304D0BD2A3E67AC009DE361 /* watchView-ViewModel.swift in Sources */,
 				938259F2296F4E7C00587088 /* mainView.swift in Sources */,
 				93157F5E2968B9F000651DAA /* episode.swift in Sources */,
 				93157F522968B95B00651DAA /* watchView.swift in Sources */,

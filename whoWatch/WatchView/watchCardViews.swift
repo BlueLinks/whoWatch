@@ -44,26 +44,19 @@ extension UIColor {
 
 struct watchCardViews : View{
     
-    @Binding var mainEpisode : episode
-    var episodeLib : episodeLibrary
+    var mainEpisode : episode
+    var previousEpisode: episode?
+    var nextEpisode: episode?
+    var showingCurrentEpisode : Bool
     // default values for previews
     var backButton: () -> Void = { print("Going back") }
     var currentButton: () -> Void = { print("Going to current") }
     var forwardButton: () -> Void = { print("Going forward") }
     
-    var previousEpisode : episode? {
-        episodeLib.getPreviousEpisode(currentEp: mainEpisode)
-    }
-    
-    var nextEpisode : episode? {
-        episodeLib.getNextEpisode(currentEp: mainEpisode)
-    }
-    
     var mainTitle : String {
-        let currentEpisode = episodeLib.whatToWatch()
-        if mainEpisode.id == currentEpisode.id {
+        if mainEpisode.id == mainEpisode.id {
             return "Watch Now!"
-        } else if  mainEpisode.startTime < currentEpisode.startTime {
+        } else if  mainEpisode.startTime < mainEpisode.startTime {
             return "Finished"
         } else {
             return "Soon..."
@@ -119,7 +112,7 @@ struct watchCardViews : View{
                                        currentEpisode: mainEpisode,
                                        backgroundColor: getBackgroundColor(ep: mainEpisode),
                                        logo: getLogo(currentEp: mainEpisode),
-                                       function: {self.currentButton() }
+                                       function: {self.currentButton() }, showingCurrentEpisode: showingCurrentEpisode
                     )
                     .frame(minWidth: geo.size.width * 0.5,
                            maxWidth: geo.size.width * 0.9,
@@ -208,12 +201,8 @@ struct watchCardViews : View{
     struct watchCardViews_Previews: PreviewProvider {
         
         static var previews: some View {
-            let episodeLib = episodeLibrary(episodes: Bundle.main.decode("doccyWho.json"))
             
-            watchCardViews(mainEpisode: .constant(episodeLib.episodes[5]),
-                           episodeLib: episodeLib,
-                           backButton: { print("Going back") },
-                           forwardButton: { print("Going forward") })
+            watchCardViews(mainEpisode: episode.example, showingCurrentEpisode: false)
             .preferredColorScheme(.dark)
         }
     }
