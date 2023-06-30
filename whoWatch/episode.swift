@@ -8,7 +8,7 @@
 import Foundation
 
 struct episode : Codable, Identifiable {
-    let id = UUID()
+    var id = UUID()
     let title : String
     let show : String
     let series : String

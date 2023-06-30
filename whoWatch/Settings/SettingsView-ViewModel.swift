@@ -5,6 +5,9 @@
 //  Created by Scott Brown on 09/06/2023.
 //
 
+import Foundation
+import SwiftUI
+
 struct settingsModel : Codable {
     public var startDate = Date()
     public var endDate = Date()
@@ -13,32 +16,39 @@ struct settingsModel : Codable {
     public var sarahJaneToggle: Bool = true
 }
 
-import Foundation
-
 extension SettingsView {
     @MainActor class ViewModel: ObservableObject {
         
         private let decoder = JSONDecoder()
         private let encoder = JSONEncoder()
         
-        @Published var startDate: Date = Date()
-        @Published var endDate: Date = Date()
-        @Published var doctorWhoToggle: Bool = true
-        @Published var torchwoodToggle: Bool = true
-        @Published var sarahJaneToggle: Bool = true
+        private let libSaver = librarySaver()
+        
+        private var initialStartDate : Date = Date()
+        private var initialEndDate : Date = Date()
+        private var initialDoctorWhoToggle : Bool = true
+        private var initialTorchwoodToggle : Bool = true
+        private var initialSarahJaneToggle : Bool = true
+        
+        @Published var startDateInput: Date = Date()
+        @Published var endDateInput: Date = Date()
+        @Published var doctorWhoToggleInput: Bool = true
+        @Published var torchwoodToggleInput: Bool = true
+        @Published var sarahJaneToggleInput: Bool = true
         
         private var initialSettings: settingsModel = settingsModel()
         
         public var hasChanged: Bool {
-            if Calendar.current.isDate(startDate, equalTo: initialSettings.startDate, toGranularity: .day) &&
-                Calendar.current.isDate(endDate, equalTo: initialSettings.endDate, toGranularity: .day) &&
-                doctorWhoToggle == initialSettings.doctorWhoToggle &&
-                torchwoodToggle == initialSettings.torchwoodToggle &&
-                sarahJaneToggle == initialSettings.sarahJaneToggle {
+            if Calendar.current.isDate(startDateInput, equalTo: initialStartDate, toGranularity: .day) &&
+                Calendar.current.isDate(endDateInput, equalTo: initialEndDate, toGranularity: .day) &&
+                doctorWhoToggleInput == initialDoctorWhoToggle &&
+                torchwoodToggleInput == initialTorchwoodToggle &&
+                sarahJaneToggleInput == initialSarahJaneToggle {
                 return false
             } else {
                 return true
             }
+            
         }
         
         init(){
@@ -50,39 +60,31 @@ extension SettingsView {
         }
         
         private func loadFromUserDefaults(){
-            if let data = UserDefaults.standard.data(forKey: "SettingsProfile") {
-                do {
-                    let decodedSettings = try decoder.decode(settingsModel.self, from: data)
-                    startDate = decodedSettings.startDate
-                    endDate = decodedSettings.endDate
-                    doctorWhoToggle = decodedSettings.doctorWhoToggle
-                    torchwoodToggle = decodedSettings.torchwoodToggle
-                    sarahJaneToggle = decodedSettings.sarahJaneToggle
-                    // Save settings to compare later for reset func
-                    initialSettings = decodedSettings
-                    
-                } catch {
-                    print("Unable to Decode settings (\(error))")
-                }
-            }
+            startDateInput = UserDefaults.standard.object(forKey: "startDate") as? Date ?? Date()
+            initialStartDate = startDateInput
+            
+            endDateInput = UserDefaults.standard.object(forKey: "endDate") as? Date ?? Date().addingTimeInterval(3.154e+7)
+            initialEndDate = endDateInput
+            
+            doctorWhoToggleInput = UserDefaults.standard.bool(forKey: "doctorWhoToggle")
+            initialDoctorWhoToggle = doctorWhoToggleInput
+            
+            torchwoodToggleInput = UserDefaults.standard.bool(forKey: "torchwoodToggle")
+            initialTorchwoodToggle = torchwoodToggleInput
+            
+            sarahJaneToggleInput = UserDefaults.standard.bool(forKey: "sarahJaneToggle")
+            initialSarahJaneToggle = sarahJaneToggleInput
         }
         
         func save(){
-            
-            let settingsModel = settingsModel(
-            startDate: startDate,
-            endDate: endDate,
-            doctorWhoToggle: doctorWhoToggle,
-            torchwoodToggle: torchwoodToggle,
-            sarahJaneToggle: sarahJaneToggle)
-            
-            do {
-                let data = try encoder.encode(settingsModel)
-                UserDefaults.standard.set(data, forKey: "SettingsProfile")
-                loadFromUserDefaults()
-            } catch {
-                print("Unable to Encode settings (\(error))")
-            }
+            print("Saving date \(startDateInput)")
+            UserDefaults.standard.set(startDateInput, forKey: "startDate")
+            UserDefaults.standard.set(endDateInput, forKey: "endDate")
+            UserDefaults.standard.set(doctorWhoToggleInput, forKey: "doctorWhoToggle")
+            UserDefaults.standard.set(torchwoodToggleInput, forKey: "torchwoodToggle")
+            UserDefaults.standard.set(sarahJaneToggleInput, forKey: "sarahJaneToggle")
+            loadFromUserDefaults()
+            libSaver.saveNewLibary(startDate: startDateInput, endDate: endDateInput, doctorWho: doctorWhoToggleInput, torchwood: torchwoodToggleInput, sarahJane: sarahJaneToggleInput)
         }
     }
 }
