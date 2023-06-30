@@ -7,11 +7,18 @@
 
 import SwiftUI
 
+class librarySavedStatus : ObservableObject {
+    @Published var hasChanged : Bool = false
+}
+
 struct mainView: View {
+    
+    @StateObject var libSavedStatus = librarySavedStatus()
     
     var body: some View {
         TabView {
             watchView()
+                .environmentObject(libSavedStatus)
                 .tabItem {
                     Label("Watch", systemImage: "tv")
                 }
@@ -22,10 +29,14 @@ struct mainView: View {
                 }
             
             SettingsView()
+                .environmentObject(libSavedStatus)
                 .tabItem{
                     Label("Settings", systemImage: "gear")
                 }
         }.preferredColorScheme(.dark)
+            .onAppear {
+                print(libSavedStatus.hasChanged)
+            }
     }
 }
 

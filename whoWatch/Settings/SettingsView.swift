@@ -16,17 +16,17 @@ struct SettingsView: View {
         NavigationView{
             Form{
                 Section("Dates"){
-                    DatePicker(selection: $viewModel.startDate, displayedComponents: .date) {
-                        Text("When to start watching")
+                    DatePicker(selection: $viewModel.startDateInput, in: ...viewModel.endDateInput, displayedComponents: .date) {
+                        Text("When to start watching?")
                     }
-                    DatePicker(selection: $viewModel.endDate, displayedComponents: .date) {
-                        Text("When to finsih")
+                    DatePicker(selection: $viewModel.endDateInput, in: viewModel.startDateInput..., displayedComponents: .date) {
+                        Text("When to finish?")
                     }
                 }
                 Section("Shows"){
-                    Toggle("Doctor Who", isOn: $viewModel.doctorWhoToggle)
-                    Toggle("Torchwood", isOn: $viewModel.torchwoodToggle)
-                    Toggle("Sarah Jane Adventures", isOn: $viewModel.sarahJaneToggle)
+                    Toggle("Doctor Who", isOn: $viewModel.doctorWhoToggleInput)
+                    Toggle("Torchwood", isOn: $viewModel.torchwoodToggleInput)
+                    Toggle("Sarah Jane Adventures", isOn: $viewModel.sarahJaneToggleInput)
                 }
                 Section(){
                     

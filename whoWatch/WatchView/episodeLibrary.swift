@@ -8,23 +8,22 @@
 import Foundation
 import SwiftUI
 
+struct rawEpisode : Decodable {
+    let title : String
+    let show : String
+    let series : String
+    let episodeNum : String // Come up with better name
+    let orderNum : Int
+    
+}
+
 class episodeLibrary : ObservableObject {
     
-    let episodes : [episode]
+    private let decoder = JSONDecoder()
     
-    init(){
-        if let path = Bundle.main.path(forResource: "doccyWho", ofType: "json") {
-            if let data = try? Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe) {
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .secondsSince1970
-                if let decoded = try? decoder.decode([episode].self, from: data) {
-                    episodes = decoded
-                    return
-                }
-            }
-        }
-        episodes = []
-    }
+    private let libLoader = libraryLoader()
+    
+    public var episodes : [episode] = []
     
     func getNextEpisode(currentEp : episode) -> episode? {
         if currentEp.orderNum != episodes.count {
@@ -44,15 +43,18 @@ class episodeLibrary : ObservableObject {
         }
     }
     
+    func loadData(){
+        episodes.removeAll()
+        episodes = libLoader.loadLibrary()
+    }
     
-    func whatToWatch() -> episode {
-        print("Checking what to watch")
+    func whatToWatch() -> episode? {
         let currentDate = Date()
         for potentialEpisode in episodes {
-            if potentialEpisode.startTime < Date() && potentialEpisode.endTime > currentDate {
+            if potentialEpisode.startTime < currentDate && potentialEpisode.endTime > currentDate {
                 return potentialEpisode
             }
         }
-        fatalError("No episode to watch")
+        return nil
     }
 }

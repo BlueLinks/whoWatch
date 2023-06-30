@@ -11,6 +11,8 @@ import SwiftUI
 extension watchView {
     @MainActor class ViewModel: ObservableObject {
         
+        @AppStorage("libHasSaved") var libHasSaved: Bool = false
+        
         var episodeLib = episodeLibrary()
         
         @Published var mainEpisode : episode?
@@ -36,24 +38,29 @@ extension watchView {
             return false
         }
         
-        init(){
-            onCurrentPressed()
-        }
-        
         var mainEpisodeViewTitle : String {
-            let currentEpisode = episodeLib.whatToWatch()
-            if let mainEpisode = mainEpisode {
-                if mainEpisode == episodeLib.whatToWatch() {
-                    return "Watch now!"
-                }
-                if mainEpisode.startTime < currentEpisode.startTime {
-                    return "Previously..."
-                }
-                if mainEpisode.startTime > currentEpisode.startTime {
-                    return "Soon..."
+            if let currentEpisode = episodeLib.whatToWatch() {
+                if let mainEpisode = mainEpisode {
+                    if mainEpisode == episodeLib.whatToWatch() {
+                        return "Watch now!"
+                    }
+                    if mainEpisode.startTime < currentEpisode.startTime {
+                        return "Previously..."
+                    }
+                    if mainEpisode.startTime > currentEpisode.startTime {
+                        return "Soon..."
+                    }
                 }
             }
             return "Unknown"
+        }
+        
+        func refreshLib(){
+            if UserDefaults.standard.bool(forKey: "libHasSaved") || mainEpisode == nil {
+                episodeLib.loadData()
+                libHasSaved = false
+            }
+            mainEpisode = episodeLib.whatToWatch()
         }
         
         func onBackPressed() -> Void {
