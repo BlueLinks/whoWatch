@@ -71,37 +71,48 @@ struct watchView : View{
                             
                             Spacer()
                             
-                            HStack(spacing: geo.size.width * 0.05){
-                                
-                                if let previousEpisode = viewModel.previousEpisode {
-                                    subEpisodeView(title: "Previous",
-                                                   subEpisode: previousEpisode,
-                                                   backgroundColor: getBackgroundColor(ep: previousEpisode),
-                                                   logo: getLogo(currentEp: previousEpisode),
-                                                   function: { viewModel.onBackPressed() },
-                                                   buttonLabel: "arrow.backward")
-                                    .frame(minWidth: geo.size.width * 0.3,
-                                           maxWidth: geo.size.width * 0.45,
-                                           minHeight: geo.size.width * 0.3,
-                                           maxHeight: geo.size.width * 0.7)
+                            VStack(){
+                                if !viewModel.showingCurrentEpisode {
+                                    Button(){
+                                        viewModel.onCurrentPressed()
+                                    } label: {
+                                        Text("Back to watch now")
+                                            .padding()
+                                            .frame(maxWidth: .infinity)
+                                    }
+                                    .buttonStyle(.bordered)
+                                    .tint(Color.blue)
+                                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)                                }
+                                HStack(){
                                     
+                                    if let previousEpisode = viewModel.previousEpisode {
+                                        Button(){
+                                            viewModel.onBackPressed()
+                                        } label : {
+                                            Text("Previous")
+                                                .padding()
+                                                .frame(maxWidth: .infinity)
+                                        }
+                                        .buttonStyle(.bordered)
+                                        .tint(Color.red)
+                                    }
+                                    
+                                    if let nextEpisode = viewModel.nextEpisode {
+                                        Button(){
+                                            viewModel.onForwardPressed()
+                                        } label : {
+                                            Text("Next")
+                                                .padding()
+                                                .frame(maxWidth: .infinity)
+                                        }
+                                        .buttonStyle(.bordered)
+                                        .tint(Color.green)
+                                    }
                                 }
                                 
-                                if let nextEpisode = viewModel.nextEpisode {
-                                    subEpisodeView(title: "Next",
-                                                   subEpisode: nextEpisode, backgroundColor: getBackgroundColor(ep: nextEpisode),
-                                                   logo: getLogo(currentEp: nextEpisode),
-                                                   function: { viewModel.onForwardPressed() }, buttonLabel: "arrow.forward")
-                                    .frame(minWidth: geo.size.width * 0.3,
-                                           maxWidth: geo.size.width * 0.45,
-                                           minHeight: geo.size.width * 0.3,
-                                           maxHeight: geo.size.width * 0.7)
-                                    
-                                }
                             }
-                            
+                            .padding([.leading, .trailing])
                             Spacer()
-                            
                         }
                         .frame(width: geo.size.width, height: geo.size.height)
                     }

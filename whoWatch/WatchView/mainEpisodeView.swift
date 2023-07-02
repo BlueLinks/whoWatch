@@ -42,19 +42,7 @@ struct MainEpisodeView: View {
                     Text("Series: \(currentEpisode.series), Episode: \(currentEpisode.episodeNum)")
                         .multilineTextAlignment(.center)
                 }
-                if !showingCurrentEpisode{
-                    // This is not the current episode
-                    Button(){
-                        self.function()
-                    } label: {
-                        Text("Back to current")
-                            .padding()
-                            .background(Color(.blue))
-                            .foregroundColor(.white)
-                            .clipShape(Capsule())
-                    }
-                    .padding()
-                } else {
+                if showingCurrentEpisode {
                     // This is the current episode, show timer
                     VStack{
                         Text("Time left to watch...")
