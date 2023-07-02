@@ -9,12 +9,12 @@ import SwiftUI
 
 struct episodeListView: View {
     
-    var episodeLib = episodeLibrary()
+    @StateObject private var viewModel = ViewModel()
     
     var body: some View {
         NavigationView{
             List {
-                ForEach(episodeLib.episodes) { ep in
+                ForEach(viewModel.epiosdes) { ep in
                     HStack(spacing: 10){
                         Text("\(ep.orderNum)")
                             .frame(width: 40)
@@ -31,14 +31,16 @@ struct episodeListView: View {
                 }
             }
             .navigationTitle("All Episodes")
+            .onAppear {
+                viewModel.getEpisodes()
+            }
         }
     }
 }
 
 struct episodeListView_Previews: PreviewProvider {
     static var previews: some View {
-        let episodeLib = episodeLibrary()
-        episodeListView(episodeLib: episodeLib)
+        episodeListView()
             .preferredColorScheme(.dark)
     }
 }

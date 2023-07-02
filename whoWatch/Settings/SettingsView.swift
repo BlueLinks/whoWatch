@@ -29,26 +29,38 @@ struct SettingsView: View {
                     Toggle("Sarah Jane Adventures", isOn: $viewModel.sarahJaneToggleInput)
                 }
                 Section(){
-                    
-                    Button(){
-                        showSaveAlert.toggle()
-                    } label: {
-                        Text("Save changes")
-                    }
-                    .disabled(!viewModel.hasChanged)
-                    .alert("Are you sure you want to save?", isPresented: $showSaveAlert){
-                        Button("Cancel", role: .cancel){}
-                        Button("I'm sure"){
-                            viewModel.save()
+                    VStack{
+                        
+                        Button(){
+                            showSaveAlert.toggle()
+                        } label: {
+                            Text("Save changes")
+                                .padding()
+                                .frame(maxWidth: .infinity)
                         }
+                        
+                        .buttonStyle(.bordered)
+                        .tint(Color.blue)
+                        .disabled(!viewModel.hasChanged)
+                        .alert("Are you sure you want to save?", isPresented: $showSaveAlert){
+                            Button("Cancel", role: .cancel){}
+                            Button("I'm sure"){
+                                viewModel.save()
+                            }
+                        }
+                        Button(){
+                            viewModel.reset()
+                        } label: {
+                            Text("Reset changes")
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(Color.red)
+                        .disabled((!viewModel.hasChanged))
                     }
-                    Button(role: .destructive){
-                        viewModel.reset()
-                    } label: {
-                        Text("Reset changes")
-                    }
-                    .disabled((!viewModel.hasChanged))
                 }
+                .listRowBackground(Color.clear)
             }
             .navigationTitle("Settings")
         }
