@@ -48,77 +48,70 @@ struct watchView : View{
     var body: some View {
         VStack{
             if let mainEpisode = viewModel.mainEpisode {
-                ZStack{
+                VStack(alignment: .leading){
+                    Text(viewModel.mainEpisodeViewTitle)
+                        .font(.largeTitle)
+                        .padding()
                     
-                    LinearGradient(gradient: Gradient(colors: [getBackgroundColor(ep: mainEpisode), getBackgroundColor(ep: mainEpisode).darker(by: 0.5)]), startPoint: .topLeading, endPoint: .bottom)
-                        .edgesIgnoringSafeArea(.top)
-                    
-                    GeometryReader { geo in
-                        VStack(){
-                            
-                            Spacer()
-                            
-                            MainEpisodeView(title: viewModel.mainEpisodeViewTitle,
-                                            currentEpisode: mainEpisode,
-                                            backgroundColor: getBackgroundColor(ep: mainEpisode),
-                                            logo: getLogo(currentEp: mainEpisode),
-                                            function: {viewModel.onCurrentPressed() }, showingCurrentEpisode: viewModel.showingCurrentEpisode
-                            )
-                            .frame(minWidth: geo.size.width * 0.5,
-                                   maxWidth: geo.size.width * 0.9,
-                                   minHeight: geo.size.width * 0.4,
-                                   maxHeight: geo.size.width * 0.8)
-                            
-                            Spacer()
-                            
-                            VStack(){
-                                if !viewModel.showingCurrentEpisode {
-                                    Button(){
-                                        viewModel.onCurrentPressed()
-                                    } label: {
-                                        Text("Back to watch now")
-                                            .padding()
-                                            .frame(maxWidth: .infinity)
-                                    }
-                                    .buttonStyle(.bordered)
-                                    .tint(Color.blue)
-                                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)                                }
-                                HStack(){
-                                    
-                                    if let previousEpisode = viewModel.previousEpisode {
-                                        Button(){
-                                            viewModel.onBackPressed()
-                                        } label : {
-                                            Text("Previous")
-                                                .padding()
-                                                .frame(maxWidth: .infinity)
-                                        }
-                                        .buttonStyle(.bordered)
-                                        .tint(Color.red)
-                                    }
-                                    
-                                    if let nextEpisode = viewModel.nextEpisode {
-                                        Button(){
-                                            viewModel.onForwardPressed()
-                                        } label : {
-                                            Text("Next")
-                                                .padding()
-                                                .frame(maxWidth: .infinity)
-                                        }
-                                        .buttonStyle(.bordered)
-                                        .tint(Color.green)
-                                    }
-                                }
-                                
-                            }
-                            .padding([.leading, .trailing])
-                            Spacer()
-                        }
-                        .frame(width: geo.size.width, height: geo.size.height)
+                    VStack{
+                        Spacer()
+                        MainEpisodeView(title: viewModel.mainEpisodeViewTitle,
+                                        currentEpisode: mainEpisode,
+                                        backgroundColor: getBackgroundColor(ep: mainEpisode),
+                                        logo: getLogo(currentEp: mainEpisode),
+                                        function: {viewModel.onCurrentPressed() }, showingCurrentEpisode: viewModel.showingCurrentEpisode
+                        )
+                        Spacer()
                     }
+                    VStack(){
+                        Button(){
+                            withAnimation{
+                                viewModel.onCurrentPressed()
+                            }
+                        } label: {
+                            Text("Back to watch now")
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(Color.blue)
+                        .frame(maxWidth: .infinity)
+                        .disabled(viewModel.showingCurrentEpisode)
+                        
+                        HStack(){
+                            Button(){
+                                withAnimation{
+                                    viewModel.onBackPressed()
+                                }
+                            } label : {
+                                Text("Previous")
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                            }
+                            .buttonStyle(.bordered)
+                            .tint(Color.red)
+                            .disabled(viewModel.previousEpisode == nil)
+                            Button(){
+                                withAnimation{
+                                    viewModel.onForwardPressed()
+                                }
+                            } label : {
+                                Text("Next")
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                            }
+                            .buttonStyle(.bordered)
+                            .tint(Color.green)
+                            .disabled(viewModel.nextEpisode == nil)
+                        }
+                    }
+                    .padding()
                 }
+                
+                .background(LinearGradient(gradient: Gradient(colors: [Color.black, getBackgroundColor(ep: mainEpisode), Color.black]), startPoint: .top, endPoint: .bottom)
+                    .edgesIgnoringSafeArea(.top))
             } else {
-                Text("There's nothing to show!")
+                Text("There's nothing to show")
             }
         }
         .onAppear(){
