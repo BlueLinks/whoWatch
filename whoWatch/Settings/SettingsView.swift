@@ -28,7 +28,6 @@ struct SettingsView: View {
                     Toggle("Torchwood", isOn: $viewModel.torchwoodToggleInput)
                     Toggle("Sarah Jane Adventures", isOn: $viewModel.sarahJaneToggleInput)
                 }
-                Section(){
                     VStack{
                         
                         Button(){
@@ -59,7 +58,6 @@ struct SettingsView: View {
                         .tint(Color.red)
                         .disabled((!viewModel.hasChanged))
                     }
-                }
                 .listRowBackground(Color.clear)
             }
             .navigationTitle("Settings")

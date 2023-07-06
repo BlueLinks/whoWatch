@@ -25,13 +25,8 @@ struct MainEpisodeView: View {
     let formatter = DateComponentsFormatter()
     
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(backgroundColor.shadow(.drop(color: .black, radius: 10, x: 10, y: 10)))
-                .blendMode(.softLight)
-            VStack(spacing: 10){
-                Text(title)
-                    .font(.title)
+        VStack {
+            VStack(alignment: .leading){
                 logo
                     .resizable()
                     .scaledToFit()
@@ -42,30 +37,20 @@ struct MainEpisodeView: View {
                     Text("Series: \(currentEpisode.series), Episode: \(currentEpisode.episodeNum)")
                         .multilineTextAlignment(.center)
                 }
-                if !showingCurrentEpisode{
-                    // This is not the current episode
-                    Button(){
-                        self.function()
-                    } label: {
-                        Text("Back to current")
-                            .padding()
-                            .background(Color(.blue))
-                            .foregroundColor(.white)
-                            .clipShape(Capsule())
-                    }
-                    .padding()
-                } else {
-                    // This is the current episode, show timer
-                    VStack{
-                        Text("Time left to watch...")
-                            .font(.headline)
-                        Text("\(formattedTimeRemaining)")
-                    }
-                    .frame(width: 250, height: 75)
-                    .background(.black.opacity(0.5))
-                                .clipShape(Capsule())
-                }
             }.padding()
+            if showingCurrentEpisode {
+                // This is the current episode, show timer
+                VStack{
+                    Text("Time remaining")
+                        .font(.headline)
+                    Text("\(formattedTimeRemaining)")
+                }
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(.black.opacity(0.5))
+                            .clipShape(Capsule())
+                            .padding(.horizontal)
+            }
         }
         .onAppear(){
             timeRemaining = currentEpisode.endTime.timeIntervalSince(Date())
