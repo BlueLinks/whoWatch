@@ -17,8 +17,9 @@ struct episode : Codable, Identifiable {
     var endTime : Date
     var prettyTime: String
     var orderNum : Int
+    var watched : Bool
     
-    static let example = episode(title: "Vincent and the Doctor", show: "Doctor Who", series: "5", episodeNum: "10", startTime: Date(timeIntervalSince1970: 1685285688.8888888), endTime: Date(timeIntervalSince1970: 1685393777.7777777), prettyTime: "2023/05/28 - 14:54:48", orderNum: 119)
+    static let example = episode(title: "Vincent and the Doctor", show: "Doctor Who", series: "5", episodeNum: "10", startTime: Date(timeIntervalSince1970: 1685285688.8888888), endTime: Date(timeIntervalSince1970: 1685393777.7777777), prettyTime: "2023/05/28 - 14:54:48", orderNum: 119, watched: false)
 }
 
 extension episode : Equatable {

@@ -31,7 +31,8 @@ class librarySaver : libraryJSONInterface{
                                             startTime: listofDates?[i] ?? Date(),
                                             endTime: listofDates?[i + 1] ?? Date(),
                                             prettyTime: formatter.string(from: listofDates?[i] ?? Date()),
-                                            orderNum: i+1)
+                                            orderNum: i+1,
+                                            watched: false)
                         episodes.append(newEp)
                     }
                     writeToDisk(episodes: episodes)
@@ -40,7 +41,7 @@ class librarySaver : libraryJSONInterface{
         }
     }
     
-    private func writeToDisk(episodes : [episode]) {
+    public func writeToDisk(episodes : [episode]) {
         if let encoded = try? JSONEncoder().encode(episodes) {
             let path = getLibPath()
             try? encoded.write(to: path, options: [.atomic, .completeFileProtection])

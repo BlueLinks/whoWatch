@@ -22,6 +22,7 @@ class episodeLibrary : ObservableObject {
     private let decoder = JSONDecoder()
     
     private let libLoader = libraryLoader()
+    private let libSaver = librarySaver()
     
     public var episodes : [episode] = []
     
@@ -56,5 +57,13 @@ class episodeLibrary : ObservableObject {
             }
         }
         return nil
+    }
+    
+    func toggleWatched(index : Int) -> Void {
+        episodes[index].watched.toggle()
+    }
+    
+    func updateLib() -> Void {
+        libSaver.writeToDisk(episodes: episodes)
     }
 }
