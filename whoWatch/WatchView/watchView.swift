@@ -59,7 +59,7 @@ struct watchView : View{
                                         currentEpisode: mainEpisode,
                                         backgroundColor: getBackgroundColor(ep: mainEpisode),
                                         logo: getLogo(currentEp: mainEpisode),
-                                        function: {viewModel.onCurrentPressed() }, showingCurrentEpisode: viewModel.showingCurrentEpisode
+                                        function: {viewModel.onWatchedPressed() }, showingCurrentEpisode: viewModel.showingCurrentEpisode
                         )
                         Spacer()
                     }
@@ -116,6 +116,9 @@ struct watchView : View{
         }
         .onAppear(){
             viewModel.refreshLib()
+        }
+        .onDisappear(){
+            viewModel.onViewDisappear()
         }
     }
     

@@ -31,25 +31,44 @@ struct MainEpisodeView: View {
                     .resizable()
                     .scaledToFit()
                 Text(currentEpisode.title)
-                    .multilineTextAlignment(.center)
                     .font(.title)
                 HStack{
                     Text("Series: \(currentEpisode.series), Episode: \(currentEpisode.episodeNum)")
-                        .multilineTextAlignment(.center)
                 }
-            }.padding()
+            }
+            .padding()
+            
             if showingCurrentEpisode {
                 // This is the current episode, show timer
-                VStack{
-                    Text("Time remaining")
-                        .font(.headline)
-                    Text("\(formattedTimeRemaining)")
+                HStack{
+                    Spacer()
+                    VStack(){
+                        Text("Time remaining")
+                            .font(.headline)
+                        Text("\(formattedTimeRemaining)")
+                    }
+                    Spacer()
+                    Divider()
+                        .frame(height: 40)
+                    Spacer()
+                        .frame(width: 25)
+                        Button(){
+                            function()
+                        } label: {
+                            Image(systemName: "checkmark.circle")
+                                .font(.title)
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.quaternary, .tertiary)
+                        }
+                        .buttonStyle(.plain)
+                    Spacer()
+                        .frame(width: 25)
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
                 .background(.black.opacity(0.5))
-                            .clipShape(Capsule())
-                            .padding(.horizontal)
+                .clipShape(Capsule())
+                .padding(.horizontal)
             }
         }
         .onAppear(){

@@ -12,7 +12,7 @@ class libraryJSONInterface {
     internal let saveKey = "usersLibrary"
     
     internal func getLibPath() -> URL {
-        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(saveKey)
+        return URL.documentsDirectory.appendingPathComponent(saveKey)
     }
  
     internal func getEquallySpacedDates(startDate: Date, endDate: Date, numberOfDates: Int) -> [Date]? {

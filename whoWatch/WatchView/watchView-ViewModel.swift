@@ -78,5 +78,15 @@ extension watchView {
                 mainEpisode = newMainEpiosde
             }
         }
+        
+        func onWatchedPressed() -> Void {
+            guard let mainEpisode = mainEpisode else { return }
+            episodeLib.toggleWatched(index: mainEpisode.orderNum)
+        }
+        
+        func onViewDisappear() -> Void {
+            episodeLib.updateLib()
+            print("View is GONE")
+        }
     }
 }
